@@ -24,10 +24,12 @@
         <li><a href="#about">О нас</a></li>
       </ul>
     </nav>
-    <div class="auth-buttons">
-      <button onclick="openModal('register')"><i class="fas fa-user-plus"></i> Регистрация</button>
-      <button onclick="openModal('login')"><i class="fas fa-sign-in-alt"></i> Войти</button>
+
+    <div class="auth-buttons" id="authArea">
+      <!-- сюда будет вставляться логин + выйти, или кнопки входа -->
     </div>
+
+
   </div>
 </header>
 
@@ -181,7 +183,7 @@
 <!-- Скрипты -->
 <script src="./jq.js"></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="./main.js"></script>
+<script src="main.js"></script>
 
 <script>
   const map = L.map('map').setView([43.2389, 76.8897], 12);
@@ -221,6 +223,8 @@
 </style>
 
 <script src="main.js"></script>
+
+<a href="assistant.html" class="assistant-launch-button">🤖 Виртуальный ассистент</a>
 
 </body>
 </html>

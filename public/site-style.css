@@ -434,4 +434,85 @@ figure:hover p {
         padding: 8px;
         font-size: 14px;
     }
+
+    .assistant-launch-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #182033;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 9999;
+    }
+    .assistant-launch-button:hover {
+        background-color: #415788;
+    }
+
+
+    .chat-page {
+        max-width: 600px;
+        margin: 3rem auto;
+        border: 2px solid #182033;
+        border-radius: 15px;
+        padding: 1rem;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+
+    .chat-body {
+        height: 400px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .chat-input {
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #182033;
+        border-radius: 5px;
+    }
+
+    .chat-input button {
+        padding: 10px 16px;
+        background: #182033;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .message {
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+
+    .message.user {
+        background-color: #415788;
+        color: white; /* <- текст пользователя белый на тёмном фоне ✅ */
+        align-self: flex-end;
+    }
+
+    .message.bot {
+        background-color: #E3E7B4;
+        color: #182033; /* <- текст бота тёмный на светлом фоне ✅ */
+        align-self: flex-start;
+    }
+
+
+
 }

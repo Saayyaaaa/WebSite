@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Виртуальный помощник</title>
+  <link rel="stylesheet" href="site-style.css" />
+  <style>
+      body {
+          background-color: #182033;
+          color: #182033;
+          font-family: "Inter", sans-serif;
+          margin: 0;
+          padding: 0;
+      }
+
+      .chat-page {
+          max-width: 600px;
+          margin: 3rem auto;
+          border: 2px solid #E3E7B4;
+          border-radius: 15px;
+          padding: 1rem;
+          background: #ffffff;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      }
+
+      h2 {
+          text-align: center;
+          color: #182033;
+          margin-bottom: 1rem;
+      }
+
+      .chat-body {
+          height: 400px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-bottom: 1rem;
+          border: 1px solid #ccc;
+          padding: 10px;
+          background-color: #f9f9f9;
+      }
+
+      .chat-input {
+          display: flex;
+          gap: 10px;
+      }
+
+      .chat-input input {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #182033;
+          border-radius: 5px;
+          font-size: 1rem;
+      }
+
+      .chat-input button {
+          padding: 10px 16px;
+          background: #182033;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+      }
+
+      .message {
+          padding: 10px;
+          border-radius: 10px;
+          max-width: 80%;
+          font-size: 16px;
+      }
+
+      .message.user {
+          background-color: #415788;
+          color: white;
+          align-self: flex-end;
+      }
+
+      .message.bot {
+          background-color: #E3E7B4;
+          color: #182033;
+          align-self: flex-start;
+      }
+  </style>
+</head>
+<body>
+<div class="chat-page">
+  <h2>🤖 Виртуальный помощник</h2>
+  <div class="chat-body" id="chatBody">
+    <div class="message bot">Здравствуйте! Чем могу помочь?</div>
+  </div>
+  <form class="chat-input" onsubmit="sendMessage(event)">
+    <input type="text" id="chatInput" placeholder="Введите сообщение..." autocomplete="off" />
+    <button type="submit">➤</button>
+  </form>
+</div>
+
+<script>
+  function sendMessage(event) {
+    event.preventDefault();
+    const input = document.getElementById("chatInput");
+    const msg = input.value.trim();
+    if (!msg) return;
+
+    addMessage("user", msg);
+    input.value = "";
+
+    setTimeout(() => {
+      const response = getBotResponse(msg);
+      addMessage("bot", response);
+    }, 500);
+  }
+
+  function addMessage(sender, text) {
+    const chatBody = document.getElementById("chatBody");
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `message ${sender}`;
+    msgDiv.innerText = text;
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function getBotResponse(msg) {
+    msg = msg.toLowerCase();
+
+    if (msg.includes("привет")) return "Привет! Чем могу помочь?";
+    if (msg.includes("забронировать")) return "Вы можете выбрать отель и нажать кнопку 'Забронировать'.";
+    if (msg.includes("контакты")) return "Связаться с нами можно по email: info@hotelfinder.kz";
+    if (msg.includes("помощь")) return "Я могу помочь найти отель, уточнить цены и подсказать по бронированию.";
+
+    return "Извините, я пока не понимаю это сообщение. Попробуйте иначе.";
+  }
+</script>
+</body>
+</html>
