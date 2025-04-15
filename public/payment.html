@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Оплата</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .payment-container {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .payment-methods {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .method {
+      padding: 12px 24px;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      color: #333;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .method.selected {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .method:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .payment-form input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      color: #333;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .payment-form input:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+      outline: none;
+    }
+
+    .payment-logos {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .payment-logos img {
+      height: 30px;
+      margin-right: 15px;
+    }
+
+    .pay-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 16px;
+      border: none;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+
+    .pay-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .pay-btn:active {
+      background-color: #004085;
+    }
+
+    .method,
+    .pay-btn {
+      transition: all 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="payment-container">
+    <h1>Оплата</h1>
+
+    <div class="payment-methods">
+      <button class="method selected">Visa</button>
+      <button class="method">Mastercard</button>
+      <button class="method">Kaspi</button>
+    </div>
+
+    <div class="payment-form">
+      <input type="text" placeholder="Номер карты" maxlength="19" />
+      <input type="text" placeholder="Срок действия (MM/YY)" maxlength="5" />
+      <input type="text" placeholder="CVV" maxlength="3" />
+    </div>
+
+    <div class="payment-logos">
+      <img src="realvisa.png" alt="Visa" />
+      <img src="mastercard.png" alt="Mastercard" />
+      <img src="realkaspi.png" alt="UnionPay" />
+    </div>
+
+    <button class="pay-btn">Оплатить</button>
+  </div>
+
+  <script>
+    // Переключение методов оплаты
+    document.querySelectorAll(".method").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".method").forEach(b => b.classList.remove("selected"));
+        btn.classList.add("selected");
+      });
+    });
+
+    // Логика загрузки данных из localStorage
+    window.addEventListener("DOMContentLoaded", () => {
+      const name = localStorage.getItem("hotelName");
+      const price = localStorage.getItem("hotelPrice");
+
+      document.getElementById("hotelName").textContent = name || "Не указано";
+      document.getElementById("hotelPrice").textContent = price || "0 ₸";
+    });
+  </script>
+
+</body>
+</html>
+
