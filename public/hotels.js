@@ -1,7 +1,7 @@
 window.hotelData = {
   ritz: {
     id: "ritz",
-    title: "Ритц Карлтон Алматы",
+    title: "\"Ритц Карлтон\" Алматы",
     description: "Роскошный 5-звездочный отель в центре города",
     price: "₸ 45 000 / ночь",
     rating: "★★★★★",
@@ -9,10 +9,42 @@ window.hotelData = {
   },
   kazakhstan: {
     id: "kazakhstan",
-    title: "Отель Казахстан",
+    title: "Отель \"Казахстан\"",
     description: "Популярный отель с прекрасным видом на горы",
     price: "₸ 30 000 / ночь",
     rating: "★★★★",
     image: "https://source.unsplash.com/800x600/?building",
+  },
+  holiday: {
+    id: "holiday",
+    title: "\"Holiday Inn Express\"",
+    description: "Современный отель с комфортными номерами и завтраком включённым",
+    price: "₸ 25 000 / ночь",
+    rating: "★★★",
+    image: "https://source.unsplash.com/800x600/?holiday-inn,hotel",
+  },
+  intercontinental: {
+    id: "intercontinental",
+    title: "\"InterContinental\" Алматы",
+    description: "Высококлассный отель с бассейном, SPA и ресторанами",
+    price: "₸ 55 000 / ночь",
+    rating: "★★★★★",
+    image: "https://source.unsplash.com/800x600/?luxury,hotel",
+  },
+  domik: {
+    id: "domik",
+    title: "\"Домик в горах\"",
+    description: "Уютный домик на окраине города с камином и видом на природу",
+    price: "₸ 18 000 / ночь",
+    rating: "★★★",
+    image: "https://source.unsplash.com/800x600/?cabin,mountain",
+  },
+  hostel: {
+    id: "hostel",
+    title: "Almaty \"Backpackers Hostel\"",
+    description: "Экономичный хостел для путешественников с душой",
+    price: "₸ 8 000 / ночь",
+    rating: "★★",
+    image: "https://source.unsplash.com/800x600/?hostel,room",
   }
 };

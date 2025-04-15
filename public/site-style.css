@@ -513,6 +513,29 @@ figure:hover p {
         align-self: flex-start;
     }
 
+    .assistant-launch-button {
+        position: fixed;
+        bottom: 30px;           /* отступ снизу */
+        right: 30px;            /* отступ справа */
+        background-color: #2A5C82;
+        color: #fff;
+        font-size: 18px;
+        padding: 16px 28px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        z-index: 9999;
+    }
 
+    .assistant-launch-button:hover {
+        background-color: #415788;
+        transform: translateY(-2px);
+    }
+
+    .assistant-launch-button:active {
+        transform: translateY(1px);
+    }
 
 }
