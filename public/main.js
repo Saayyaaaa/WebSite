@@ -31,13 +31,45 @@ function logout() {
     updateAuthUI();
 }
 
-// Проверка авторизации при загрузке страницы
+// Переход на страницу отеля
+function viewHotel(id) {
+    window.location.href = `hotel.html?id=${id}`;
+}
+
+// Отрисовка списка отелей на главной
+function renderHotels() {
+    const hotelGrid = document.querySelector(".hotel-grid");
+    if (!hotelGrid || !window.hotelData) return;
+
+    hotelGrid.innerHTML = "";
+
+    Object.values(window.hotelData).forEach(hotel => {
+        const card = document.createElement("div");
+        card.className = "hotel-card";
+        card.setAttribute("onclick", `viewHotel('${hotel.id}')`);
+
+        card.innerHTML = `
+      <div class="hotel-image" style="background-image: url('${hotel.image}')"></div>
+      <div class="hotel-info">
+        <h3>${hotel.title}</h3>
+        <div class="hotel-rating">${hotel.rating}</div>
+        <p>${hotel.description}</p>
+        <div class="hotel-price">${hotel.price}</div>
+        <button class="book-button">Забронировать</button>
+      </div>
+    `;
+        hotelGrid.appendChild(card);
+    });
+}
+
+// Запуск при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
     updateAuthUI();
+    renderHotels(); // отели из hotels.js
 });
 
 // Регистрация
-document.getElementById("registerForm").addEventListener("submit", async (e) => {
+document.getElementById("registerForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("regName").value.trim();
@@ -78,7 +110,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
 });
 
 // Вход
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
+document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const login = document.getElementById("loginLogin").value.trim();

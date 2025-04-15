@@ -80,7 +80,7 @@
 
 <!-- Hotels -->
 <section id="hotels" class="hotel-grid">
-  <div class="hotel-card" data-name="Ритц Карлтон Алматы" data-guests="2">
+  <div class="hotel-card" onclick="viewHotel('ritz')">
     <div class="hotel-image" style="background-image: url('https://source.unsplash.com/800x600/?hotel')"></div>
     <div class="hotel-info">
       <h3>Ритц Карлтон Алматы</h3>
@@ -91,7 +91,8 @@
     </div>
   </div>
 
-  <div class="hotel-card" data-name="Отель Казахстан" data-guests="4">
+
+  <div class="hotel-card" data-name="Отель Казахстан" data-guests="4" onclick="viewHotel('kazakhstan')">
     <div class="hotel-image" style="background-image: url('https://source.unsplash.com/800x600/?building')"></div>
     <div class="hotel-info">
       <h3>Отель Казахстан</h3>
@@ -101,6 +102,7 @@
       <button class="book-button">Забронировать</button>
     </div>
   </div>
+
 
   <!-- Добавьте больше отелей по аналогии -->
 </section>
@@ -222,6 +224,7 @@
   }
 </style>
 
+<script src="hotels.js"></script>
 <script src="main.js"></script>
 
 <a href="assistant.html" class="assistant-launch-button">🤖 Виртуальный ассистент</a>
