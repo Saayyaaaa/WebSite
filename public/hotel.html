@@ -79,6 +79,7 @@
 </div>
 
 <script>
+  // Данные об отелях
   const hotels = {
     kazakhstan: {
       title: "Отель Казахстан",
@@ -98,9 +99,10 @@
       price: "₸ 25 000 / ночь",
       image: "https://source.unsplash.com/800x600/?holiday,hotel",
     }
-    // Добавляй другие отели по аналогии
+    // Можно добавлять другие отели по аналогии
   };
 
+  // Получаем параметр id из URL (например, hotel.html?id=ritz)
   const params = new URLSearchParams(window.location.search);
   const hotelId = params.get("id");
   const hotel = hotels[hotelId];
@@ -121,18 +123,25 @@
   }
 
   function bookHotel() {
+    // Пример проверки, если пользователь авторизован
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Пожалуйста, войдите в аккаунт, чтобы забронировать отель.");
-      window.location.href = "index.html"; // или openModal("login") если есть на этой странице
+      window.location.href = "index.html"; // Либо открытие модального окна для входа
       return;
     }
 
-    alert(`Спасибо за бронирование, ${user.name}! Мы свяжемся с вами по email.`);
-  }
+    // Сохраняем данные выбранного отеля для использования на странице оплаты
+    localStorage.setItem("hotelName", hotel.title);
+    localStorage.setItem("hotelPrice", hotel.price);
 
+    alert(`Спасибо за бронирование, ${user.name}!`);
+    // Редирект на страницу оплаты
+    window.location.href = "payment.html";
+  }
 </script>
 
+<!-- Если есть дополнительный файл hotels.js, он может быть подключён здесь -->
 <script src="hotels.js"></script>
 
 </body>

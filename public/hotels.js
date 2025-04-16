@@ -78,7 +78,6 @@ window.hotelData = {
     price: "₸ 18 000 / ночь",
     rating: "★★",
     image: "https://source.unsplash.com/800x600/?budget,hotel",
-=======
     image: "https://source.unsplash.com/800x600/?building",
   },
   holiday: {
