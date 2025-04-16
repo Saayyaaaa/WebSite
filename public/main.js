@@ -1,10 +1,10 @@
 // Открытие/закрытие модальных окон
 function openModal(id) {
-    document.getElementById(id + 'Modal').style.display = 'flex';
+    document.getElementById(id + "Modal").style.display = "flex";
 }
 
 function closeModal(id) {
-    document.getElementById(id + 'Modal').style.display = 'none';
+    document.getElementById(id + "Modal").style.display = "none";
 }
 
 // Обновление UI на основе авторизации
@@ -36,9 +36,9 @@ function viewHotel(id) {
     window.location.href = `hotel.html?id=${id}`;
 }
 
-// Отрисовка списка отелей на главной
-function renderHotels() {
-    const hotelGrid = document.querySelector(".hotel-grid");
+// Отрисовка списка отелей из window.hotelData
+function renderHotelsFromData() {
+    const hotelGrid = document.getElementById("hotels");
     if (!hotelGrid || !window.hotelData) return;
 
     hotelGrid.innerHTML = "";
@@ -58,6 +58,7 @@ function renderHotels() {
         <button class="book-button">Забронировать</button>
       </div>
     `;
+
         hotelGrid.appendChild(card);
     });
 }
@@ -65,7 +66,7 @@ function renderHotels() {
 // Запуск при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => {
     updateAuthUI();
-    renderHotels(); // отели из hotels.js
+    renderHotelsFromData(); // <- рисуем отели
 });
 
 // Регистрация

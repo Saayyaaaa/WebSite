@@ -79,33 +79,7 @@
 
 
 <!-- Hotels -->
-<section id="hotels" class="hotel-grid">
-  <div class="hotel-card" onclick="viewHotel('ritz')">
-    <div class="hotel-image" style="background-image: url('https://source.unsplash.com/800x600/?hotel')"></div>
-    <div class="hotel-info">
-      <h3>Ритц Карлтон Алматы</h3>
-      <div class="hotel-rating">★★★★★</div>
-      <p>Роскошный 5-звездочный отель в центре города</p>
-      <div class="hotel-price">₸ 45 000 / ночь</div>
-      <button class="book-button">Забронировать</button>
-    </div>
-  </div>
-
-
-  <div class="hotel-card" data-name="Отель Казахстан" data-guests="4" onclick="viewHotel('kazakhstan')">
-    <div class="hotel-image" style="background-image: url('https://source.unsplash.com/800x600/?building')"></div>
-    <div class="hotel-info">
-      <h3>Отель Казахстан</h3>
-      <div class="hotel-rating">★★★★</div>
-      <p>Популярный отель с прекрасным видом на горы</p>
-      <div class="hotel-price">₸ 30 000 / ночь</div>
-      <button class="book-button">Забронировать</button>
-    </div>
-  </div>
-
-
-  <!-- Добавьте больше отелей по аналогии -->
-</section>
+<section id="hotels" class="hotel-grid"></section>
 
 
 <!-- Инфо-блоки -->
@@ -185,8 +159,8 @@
 <!-- Скрипты -->
 <script src="./jq.js"></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="main.js"></script>
 
+<!--map-->
 <script>
   const map = L.map('map').setView([43.2389, 76.8897], 12);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -227,7 +201,9 @@
 <script src="hotels.js"></script>
 <script src="main.js"></script>
 
-<a href="assistant.html" class="assistant-launch-button">🤖 Виртуальный ассистент</a>
+<a href="assistant.html" class="assistant-launch-button" title="Виртуальный ассистент">
+  🤖 Чем я могу вам помочь?
+</a>
 
 
 </body>
