@@ -17,11 +17,11 @@ window.hotelData = {
   },
   holiday: {
     id: "holiday",
-    title: "Holiday Inn Express",
-    description: "Современный отель с удобным расположением и завтраком",
+    title: "\"Holiday Inn Express\"",
+    description: "Современный отель с комфортными номерами и завтраком включённым",
     price: "₸ 25 000 / ночь",
     rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?holiday,hotel",
+    image: "https://source.unsplash.com/800x600/?holiday-inn,hotel",
   },
   renion: {
     id: "renion",
@@ -33,11 +33,11 @@ window.hotelData = {
   },
   intercontinental: {
     id: "intercontinental",
-    title: "InterContinental Almaty",
-    description: "Элегантный отель с видом на горы и отличным сервисом",
-    price: "₸ 50 000 / ночь",
+    title: "\"InterContinental\" Алматы",
+    description: "Высококлассный отель с бассейном, SPA и ресторанами",
+    price: "₸ 55 000 / ночь",
     rating: "★★★★★",
-    image: "https://source.unsplash.com/800x600/?intercontinental,hotel",
+    image: "https://source.unsplash.com/800x600/?luxury,hotel",
   },
   novotel: {
     id: "novotel",
@@ -77,24 +77,8 @@ window.hotelData = {
     description: "Бюджетный вариант рядом с метро и остановками",
     price: "₸ 18 000 / ночь",
     rating: "★★",
-    image: "https://source.unsplash.com/800x600/?budget,hotel",
+    // Убираем дубликат, оставляем один image
     image: "https://source.unsplash.com/800x600/?building",
-  },
-  holiday: {
-    id: "holiday",
-    title: "\"Holiday Inn Express\"",
-    description: "Современный отель с комфортными номерами и завтраком включённым",
-    price: "₸ 25 000 / ночь",
-    rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?holiday-inn,hotel",
-  },
-  intercontinental: {
-    id: "intercontinental",
-    title: "\"InterContinental\" Алматы",
-    description: "Высококлассный отель с бассейном, SPA и ресторанами",
-    price: "₸ 55 000 / ночь",
-    rating: "★★★★★",
-    image: "https://source.unsplash.com/800x600/?luxury,hotel",
   },
   domik: {
     id: "domik",
@@ -111,7 +95,5 @@ window.hotelData = {
     price: "₸ 8 000 / ночь",
     rating: "★★",
     image: "https://source.unsplash.com/800x600/?hostel,room",
-
   }
 };
-
