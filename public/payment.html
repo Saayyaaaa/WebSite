@@ -1,182 +1,137 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Оплата</title>
-  <style>
-      body {
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background-color: #f5f5f5;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-      }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата</title>
+    <style>
+        body {
+            background-color: #23272A;
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #D1D8E0;
+        }
 
-      .payment-container {
-          background-color: #ffffff;
-          padding: 30px;
-          border-radius: 15px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-          width: 380px;
-          box-sizing: border-box;
-          overflow: hidden;
-      }
+        .container {
+            background-color: #2C3A47;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 450px;
+            margin: 40px auto;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
 
-      h1 {
-          text-align: center;
-          font-size: 28px;
-          margin-bottom: 20px;
-          color: #333;
-      }
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #E3E7B4;
+            margin-bottom: 20px;
+        }
 
-      .payment-methods {
-          display: flex;
-          gap: 15px;
-          justify-content: center;
-          margin-bottom: 20px;
-      }
+        select, input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #34495E;
+            color: #D1D8E0;
+            border: 1px solid #5C6B7E;
+            transition: background-color 0.3s ease;
+        }
 
-      .method {
-          padding: 12px 24px;
-          border: 1px solid #ccc;
-          background-color: #f0f0f0;
-          color: #333;
-          border-radius: 25px;
-          cursor: pointer;
-          transition: background-color 0.3s, color 0.3s;
-      }
+        select, input {
+            background-color: #34495E;
+        }
 
-      .method.selected {
-          background-color: #007bff;
-          color: white;
-          border-color: #007bff;
-      }
+        button {
+            background-color: #1C2537;
+            color: #E3E7B4;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
 
-      .method:hover {
-          background-color: #007bff;
-          color: white;
-      }
+        button:hover {
+            background-color: #415788;
+            transform: scale(1.05);
+        }
 
-      .payment-form input {
-          width: 100%;
-          padding: 14px;
-          margin-bottom: 15px;
-          border-radius: 8px;
-          border: 1px solid #ddd;
-          background-color: #f9f9f9;
-          color: #333;
-          font-size: 16px;
-          box-sizing: border-box;
-          transition: border-color 0.3s, box-shadow 0.3s;
-      }
+        img {
+            display: block;
+            margin: 20px auto;
+            max-height: 200px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
 
-      .payment-form input:focus {
-          border-color: #007bff;
-          box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-          outline: none;
-      }
+        img:hover {
+            transform: scale(1.05);
+        }
 
-      .payment-logos {
-          text-align: center;
-          margin: 15px 0;
-      }
+        label {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #E3E7B4;
+        }
 
-      .payment-logos img {
-          height: 30px;
-          margin-right: 15px;
-      }
+        .payment-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-      .pay-btn {
-          background-color: #007bff;
-          color: white;
-          padding: 16px;
-          border: none;
-          width: 100%;
-          border-radius: 8px;
-          cursor: pointer;
-          font-size: 18px;
-          transition: background-color 0.3s;
-      }
-
-      .pay-btn:hover {
-          background-color: #0056b3;
-      }
-
-      .pay-btn:active {
-          background-color: #004085;
-      }
-
-      .method,
-      .pay-btn {
-          transition: all 0.3s ease;
-      }
-
-      /* Стили для отображения данных об отеле */
-      .hotel-info {
-          text-align: center;
-          margin-bottom: 20px;
-      }
-
-      .hotel-info span {
-          display: block;
-          font-size: 16px;
-          color: #555;
-      }
-  </style>
+        .payment-option label {
+            font-size: 16px;
+            font-weight: normal;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h2>Оплата бронирования</h2>
 
-<div class="payment-container">
-  <h1>Оплата</h1>
+        <div class="payment-option">
+            <label for="payment-method">Выберите способ оплаты:</label>
+            <select id="payment-method" onchange="togglePaymentForm()">
+                <option value="visa">Visa</option>
+                <option value="mastercard">Mastercard</option>
+                <option value="kaspi">Kaspi</option>
+            </select>
+        </div>
 
-  <div class="hotel-info">
-    <strong id="hotelNameDisplay">Отель не указан</strong>
-    <span id="hotelPriceDisplay">0 ₸</span>
-  </div>
+        <div id="card-payment">
+            <input type="text" placeholder="Номер карты" required>
+            <input type="text" placeholder="Срок действия (MM/YY)" required>
+            <input type="text" placeholder="CVV" required>
+            <button>Оплатить</button>
+        </div>
 
-  <div class="payment-methods">
-    <button class="method selected">Visa</button>
-    <button class="method">Mastercard</button>
-    <button class="method">Kaspi</button>
-  </div>
+        <div id="kaspi-payment" style="display: none;">
+            <p style="text-align: center;">Отсканируйте QR-код для оплаты Kaspi:</p>
+            <img src="KaspiQR.jpg" alt="Kaspi QR">
+        </div>
+    </div>
 
-  <div class="payment-form">
-    <input type="text" placeholder="Номер карты" maxlength="19" />
-    <input type="text" placeholder="Срок действия (MM/YY)" maxlength="5" />
-    <input type="text" placeholder="CVV" maxlength="3" />
-  </div>
+    <script>
+        function togglePaymentForm() {
+            const method = document.getElementById('payment-method').value;
+            const cardForm = document.getElementById('card-payment');
+            const kaspiForm = document.getElementById('kaspi-payment');
 
-  <div class="payment-logos">
-    <img src="realvisa.png" alt="Visa" />
-    <img src="mastercard.png" alt="Mastercard" />
-    <img src="realkaspi.png" alt="Kaspi" />
-  </div>
-
-  <button class="pay-btn">Оплатить</button>
-</div>
-
-<script>
-  // Переключение методов оплаты
-  document.querySelectorAll(".method").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".method").forEach(b => b.classList.remove("selected"));
-      btn.classList.add("selected");
-    });
-  });
-
-  // При загрузке страницы отображаем данные об отеле
-  window.addEventListener("DOMContentLoaded", () => {
-    const hotelName = localStorage.getItem("hotelName") || "Отель не указан";
-    const hotelPrice = localStorage.getItem("hotelPrice") || "0 ₸";
-
-    document.getElementById("hotelNameDisplay").textContent = hotelName;
-    document.getElementById("hotelPriceDisplay").textContent = hotelPrice;
-  });
-</script>
-
+            if (method === 'kaspi') {
+                cardForm.style.display = 'none';
+                kaspiForm.style.display = 'block';
+            } else {
+                cardForm.style.display = 'block';
+                kaspiForm.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
+
+
+
