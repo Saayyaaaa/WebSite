@@ -1,99 +1,80 @@
-window.hotelData = {
-  ritz: {
-    id: "ritz",
-    title: "\"Ритц Карлтон\" Алматы",
-    description: "Роскошный 5-звездочный отель в центре города",
-    price: "₸ 45 000 / ночь",
-    rating: "★★★★★",
-    image: "https://source.unsplash.com/800x600/?luxury,hotel",
-  },
-  kazakhstan: {
-    id: "kazakhstan",
-    title: "Отель \"Казахстан\"",
-    description: "Популярный отель с прекрасным видом на горы",
-    price: "₸ 30 000 / ночь",
-    rating: "★★★★",
-    image: "https://source.unsplash.com/800x600/?building,hotel",
-  },
-  holiday: {
-    id: "holiday",
-    title: "\"Holiday Inn Express\"",
-    description: "Современный отель с комфортными номерами и завтраком включённым",
-    price: "₸ 25 000 / ночь",
-    rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?holiday-inn,hotel",
-  },
-  renion: {
-    id: "renion",
-    title: "Renion Park Hotel",
-    description: "Уютный отель рядом с парком 28 панфиловцев",
-    price: "₸ 20 000 / ночь",
-    rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?park,hotel",
-  },
-  intercontinental: {
-    id: "intercontinental",
-    title: "\"InterContinental\" Алматы",
-    description: "Высококлассный отель с бассейном, SPA и ресторанами",
-    price: "₸ 55 000 / ночь",
-    rating: "★★★★★",
-    image: "https://source.unsplash.com/800x600/?luxury,hotel",
-  },
-  novotel: {
-    id: "novotel",
-    title: "Novotel Алматы",
-    description: "Комфортабельный отель для деловых поездок и отдыха",
-    price: "₸ 28 000 / ночь",
-    rating: "★★★★",
-    image: "https://source.unsplash.com/800x600/?novotel,hotel",
-  },
-  sheraton: {
-    id: "sheraton",
-    title: "Sheraton Алматы",
-    description: "Современный отель с отличным спа и фитнес-центром",
-    price: "₸ 40 000 / ночь",
-    rating: "★★★★☆",
-    image: "https://source.unsplash.com/800x600/?sheraton,hotel",
-  },
-  grand: {
-    id: "grand",
-    title: "Grand Hotel Tien Shan",
-    description: "Элегантный отель с европейским интерьером и рестораном",
-    price: "₸ 27 000 / ночь",
-    rating: "★★★☆",
-    image: "https://source.unsplash.com/800x600/?classic,hotel",
-  },
-  domina: {
-    id: "domina",
-    title: "Domina Hotel",
-    description: "Уютный бутик-отель с индивидуальным дизайном",
-    price: "₸ 22 000 / ночь",
-    rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?boutique,hotel",
-  },
-  almatyinn: {
-    id: "almatyinn",
-    title: "Almaty Inn Hotel",
-    description: "Бюджетный вариант рядом с метро и остановками",
-    price: "₸ 18 000 / ночь",
-    rating: "★★",
-    // Убираем дубликат, оставляем один image
-    image: "https://source.unsplash.com/800x600/?building",
-  },
-  domik: {
-    id: "domik",
-    title: "\"Домик в горах\"",
-    description: "Уютный домик на окраине города с камином и видом на природу",
-    price: "₸ 18 000 / ночь",
-    rating: "★★★",
-    image: "https://source.unsplash.com/800x600/?cabin,mountain",
-  },
-  hostel: {
-    id: "hostel",
-    title: "Almaty \"Backpackers Hostel\"",
-    description: "Экономичный хостел для путешественников с душой",
-    price: "₸ 8 000 / ночь",
-    rating: "★★",
-    image: "https://source.unsplash.com/800x600/?hostel,room",
+// hotels.js
+
+const hotelsContainer = document.getElementById('hotels');
+let hotelsArray = [];
+
+/**
+ * Отрисовка карточек отелей
+ * @param {Array} list — массив объектов отелей
+ */
+// hotels.js
+
+// В renderHotels заменяем inline-onclick на data-атрибуты и JS-слушатель
+function renderHotels(list) {
+  hotelsContainer.innerHTML = '';
+
+  if (!list.length) {
+    hotelsContainer.innerHTML = '<p>Ничего не найдено.</p>';
+    return;
   }
-};
+
+  list.forEach(hotel => {
+    const card = document.createElement('div');
+    card.className = 'hotel-card';
+    card.innerHTML = `
+      <img src="${hotel.image}" alt="${hotel.title}">
+      <div class="hotel-info">
+        <h3>${hotel.title}</h3>
+        <p>${hotel.description}</p>
+        <p class="price">${hotel.price}</p>
+        <p class="rating">${hotel.rating}</p>
+        <div class="hotel-actions">
+          <button class="book-button"
+                  data-id="${hotel.id}"
+                  data-title="${hotel.title}">
+            Забронировать
+          </button>
+        </div>
+      </div>
+    `;
+    hotelsContainer.append(card);
+  });
+
+  // После вставки всех карточек вешаем обработчики
+  document.querySelectorAll('.book-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      const title = btn.dataset.title;
+      goToPayment(id, title);
+    });
+  });
+}
+
+
+/**
+ * Переходит на страницу оплаты, передавая идентификатор и название отеля
+ */
+function goToPayment(id, title) {
+  // Можно передать и другие параметры через query string
+  const params = new URLSearchParams({ hotelId: id, hotelTitle: title });
+  window.location.href = `payment.html?${params.toString()}`;
+}
+
+
+/**
+ * Загрузка отелей с сервера
+ */
+async function loadHotels() {
+  try {
+    const response = await fetch('/api/hotels');
+    if (!response.ok) throw new Error('Ошибка загрузки: ' + response.status);
+    hotelsArray = await response.json();
+    renderHotels(hotelsArray);
+  } catch (error) {
+    console.error(error);
+    hotelsContainer.innerHTML = '<p>Не удалось загрузить отели.</p>';
+  }
+}
+
+// При загрузке страницы — тянем отели
+document.addEventListener('DOMContentLoaded', loadHotels);

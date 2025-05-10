@@ -1,3 +1,16 @@
+// main.js
+
+// Инициализация карты Leaflet
+function initMap() {
+    const map = L.map('map').setView([43.2389, 76.8897], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([43.2389, 76.8897])
+      .addTo(map)
+      .bindPopup('<b>Ритц Карлтон Алматы</b><br>Рейтинг: ★★★★★');
+}
+
 // Открытие/закрытие модальных окон
 function openModal(id) {
     document.getElementById(id + "Modal").style.display = "flex";
@@ -31,22 +44,41 @@ function logout() {
     updateAuthUI();
 }
 
-// Переход на страницу отеля
-function viewHotel(id) {
-    window.location.href = `hotel.html?id=${id}`;
+// Переход на страницу оплаты
+function goToPayment(id, title) {
+    const params = new URLSearchParams({ hotelId: id, hotelTitle: title });
+    window.location.href = `payment.html?${params.toString()}`;
 }
 
-// Отрисовка списка отелей из window.hotelData
-function renderHotelsFromData() {
-    const hotelGrid = document.getElementById("hotels");
-    if (!hotelGrid || !window.hotelData) return;
+// Переменная для хранения загруженных отелей
+let hotelsData = [];
 
-    hotelGrid.innerHTML = "";
+// Загрузка отелей с сервера
+async function loadHotels() {
+    try {
+        const res = await fetch('/api/hotels');
+        if (!res.ok) throw new Error('Ошибка загрузки: ' + res.status);
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        document.getElementById('hotels').innerHTML = '<p>Не удалось загрузить отели.</p>';
+        return [];
+    }
+}
 
-    Object.values(window.hotelData).forEach(hotel => {
-        const card = document.createElement("div");
-        card.className = "hotel-card";
-        card.setAttribute("onclick", `viewHotel('${hotel.id}')`);
+// Отрисовка списка отелей
+function renderHotels(list) {
+    const hotelGrid = document.getElementById('hotels');
+    hotelGrid.innerHTML = '';
+
+    if (list.length === 0) {
+        hotelGrid.innerHTML = '<p>Ничего не найдено.</p>';
+        return;
+    }
+
+    list.forEach(hotel => {
+        const card = document.createElement('div');
+        card.className = 'hotel-card';
 
         card.innerHTML = `
       <div class="hotel-image" style="background-image: url('${hotel.image}')"></div>
@@ -59,20 +91,39 @@ function renderHotelsFromData() {
       </div>
     `;
 
+        // Обработчик для кнопки бронирования
+        const btn = card.querySelector('.book-button');
+        btn.addEventListener('click', () => goToPayment(hotel.id, hotel.title));
+
         hotelGrid.appendChild(card);
     });
 }
 
-// Запуск при загрузке страницы
-document.addEventListener("DOMContentLoaded", () => {
+// Инициализация страницы после загрузки DOM
+document.addEventListener('DOMContentLoaded', async () => {
     updateAuthUI();
-    renderHotelsFromData(); // <- рисуем отели
+
+    // Инициализируем карту
+    initMap();
+
+    // Загрузка и отрисовка отелей
+    hotelsData = await loadHotels();
+    renderHotels(hotelsData);
+
+    // Поиск по названию
+    const form = document.getElementById('filterForm');
+    const nameInput = document.getElementById('searchName');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const q = nameInput.value.trim().toLowerCase();
+        const filtered = hotelsData.filter(h => h.title.toLowerCase().includes(q));
+        renderHotels(filtered);
+    });
 });
 
 // Регистрация
 document.getElementById("registerForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const name = document.getElementById("regName").value.trim();
     const login = document.getElementById("regLogin").value.trim();
     const password = document.getElementById("regPassword").value;
@@ -82,7 +133,6 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
         alert("Пожалуйста, заполните все поля.");
         return;
     }
-
     if (password !== confirm) {
         alert("Пароли не совпадают!");
         return;
@@ -94,9 +144,7 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, login, password }),
         });
-
         const data = await response.json();
-
         if (response.ok) {
             alert(data.message);
             document.getElementById("registerForm").reset();
@@ -113,7 +161,6 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
 // Вход
 document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const login = document.getElementById("loginLogin").value.trim();
     const password = document.getElementById("loginPassword").value;
 
@@ -128,9 +175,7 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ login, password }),
         });
-
         const data = await response.json();
-
         if (response.ok) {
             localStorage.setItem("user", JSON.stringify(data.user));
             alert(data.message);

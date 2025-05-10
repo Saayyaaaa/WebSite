@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Поиск и бронирование отелей в Алматы</title>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="site-style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -24,12 +25,9 @@
         <li><a href="#about">О нас</a></li>
       </ul>
     </nav>
-
     <div class="auth-buttons" id="authArea">
-      <!-- сюда будет вставляться логин + выйти, или кнопки входа -->
+      <!-- сюда скриптом будет вставляться Регистрация/Войти или логин/Выйти -->
     </div>
-
-
   </div>
 </header>
 
@@ -37,7 +35,7 @@
 <section id="home" class="hero">
   <div>
     <h2>Найдите идеальный отель в Алматы</h2>
-    <p>Лучшие предложения от 3-х звезд до люксовых апартаментов</p>
+    <p>Лучшие предложения от 3-х звёзд до люксовых апартаментов</p>
   </div>
 </section>
 
@@ -49,17 +47,14 @@
         <i class="fas fa-search"></i>
         <input type="text" id="searchName" placeholder="Введите название отеля" />
       </div>
-
       <div class="form-group">
         <i class="fas fa-calendar-alt"></i>
         <input type="date" id="checkIn" placeholder="Заезд" />
       </div>
-
       <div class="form-group">
         <i class="fas fa-calendar-alt"></i>
         <input type="date" id="checkOut" placeholder="Выезд" />
       </div>
-
       <div class="form-group">
         <i class="fas fa-users"></i>
         <select id="guestCount">
@@ -71,16 +66,13 @@
           <option value="5">5+ гостей</option>
         </select>
       </div>
-
       <button type="submit">Найти отель <i class="fas fa-arrow-right"></i></button>
     </form>
   </div>
 </section>
 
-
-<!-- Hotels -->
+<!-- Hotels (заполняется через JS) -->
 <section id="hotels" class="hotel-grid"></section>
-
 
 <!-- Инфо-блоки -->
 <div class="container">
@@ -117,11 +109,13 @@
     </div>
   </div>
 </footer>
-
-<div style="text-align: center; padding: 10px;">&copy; 2025 Поиск и бронирование отелей в Алматы. Все права защищены.</div>
+<div style="text-align: center; padding: 10px;">
+  &copy; 2025 Поиск и бронирование отелей в Алматы. Все права защищены.
+</div>
 
 <!-- Модальные окна -->
-<!-- Модалка регистрации -->
+
+<!-- Регистрация -->
 <div id="registerModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal('register')">&times;</span>
@@ -136,8 +130,7 @@
   </div>
 </div>
 
-
-<!-- Модалка входа -->
+<!-- Вход -->
 <div id="loginModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal('login')">&times;</span>
@@ -150,60 +143,22 @@
   </div>
 </div>
 
-
-<!-- Загрузка -->
+<!-- Loader -->
 <div class="loader">
   <div class="spinner"></div>
 </div>
 
-<!-- Скрипты -->
-<script src="./jq.js"></script>
+<!-- JS: Leaflet + ваши скрипты -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script defer src="hotels.js"></script>
+<script defer src="main.js"></script>
 
-<!--map-->
-<script>
-  const map = L.map('map').setView([43.2389, 76.8897], 12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-  L.marker([43.2389, 76.8897]).addTo(map).bindPopup('<b>Ритц Карлтон Алматы</b><br>Рейтинг: ★★★★★');
-
-  window.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('.loader').style.display = 'flex';
-    setTimeout(() => {
-      document.querySelector('.loader').style.display = 'none';
-    }, 1000);
-  });
-</script>
-
-<style>
-  .loader {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #2A5C82;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-</style>
-
-<script src="hotels.js"></script>
-<script src="main.js"></script>
-
-<a href="assistant.html" class="assistant-launch-button" title="Виртуальный ассистент">
+<!-- Кнопка запуска ассистента -->
+<a href="assistant.html" class="assistant-launch-button" title="Виртуальный помощник">
   🤖 Чем я могу вам помочь?
 </a>
+</body>
+</html>
 
 
 </body>

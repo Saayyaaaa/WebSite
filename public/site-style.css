@@ -538,4 +538,26 @@ figure:hover p {
         transform: translateY(1px);
     }
 
+    /* Кнопка запуска ассистента */
+    .assistant-launch-button {
+        position: fixed;
+        bottom: 20px;             /* отступ от низа */
+        right: 20px;              /* отступ от правого края */
+        background-color: #182033;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 10000;           /* поверх всего контента */
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .assistant-launch-button:hover {
+        background-color: #415788;
+        transform: translateY(-2px);
+    }
+
+
 }

@@ -130,6 +130,16 @@
             }
         }
     </script>
+
+    <!-- в payment.html, прямо перед закрывающим </body> -->
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('hotelTitle');
+        if (title) {
+            document.querySelector('h2').textContent = `Оплата бронирования: ${title}`;
+        }
+    </script>
+
 </body>
 </html>
 
