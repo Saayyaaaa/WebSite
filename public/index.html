@@ -25,9 +25,7 @@
         <li><a href="#about">О нас</a></li>
       </ul>
     </nav>
-    <div class="auth-buttons" id="authArea">
-      <!-- сюда скриптом будет вставляться Регистрация/Войти или логин/Выйти -->
-    </div>
+    <div class="auth-buttons" id="authArea"></div>
   </div>
 </header>
 
@@ -43,26 +41,15 @@
 <section id="search">
   <div class="search-container">
     <form class="search-form" id="filterForm">
-      <div class="form-group">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchName" placeholder="Введите название отеля" />
-      </div>
-      <div class="form-group">
-        <i class="fas fa-calendar-alt"></i>
-        <input type="date" id="checkIn" placeholder="Заезд" />
-      </div>
-      <div class="form-group">
-        <i class="fas fa-calendar-alt"></i>
-        <input type="date" id="checkOut" placeholder="Выезд" />
-      </div>
+      <div class="form-group"><i class="fas fa-search"></i><input type="text" id="searchName" placeholder="Введите название отеля"/></div>
+      <div class="form-group"><i class="fas fa-calendar-alt"></i><input type="date" id="checkIn"  placeholder="Заезд" /></div>
+      <div class="form-group"><i class="fas fa-calendar-alt"></i><input type="date" id="checkOut" placeholder="Выезд" /></div>
       <div class="form-group">
         <i class="fas fa-users"></i>
         <select id="guestCount">
           <option disabled selected>Выберите кол-во гостей</option>
-          <option value="1">1 гость</option>
-          <option value="2">2 гостя</option>
-          <option value="3">3 гостя</option>
-          <option value="4">4 гостя</option>
+          <option value="1">1 гость</option><option value="2">2 гостя</option>
+          <option value="3">3 гостя</option><option value="4">4 гостя</option>
           <option value="5">5+ гостей</option>
         </select>
       </div>
@@ -71,7 +58,7 @@
   </div>
 </section>
 
-<!-- Hotels (заполняется через JS) -->
+<!-- Hotels -->
 <section id="hotels" class="hotel-grid"></section>
 
 <!-- Инфо-блоки -->
@@ -85,35 +72,25 @@
 <!-- Карта -->
 <section class="map-section">
   <h2>Отели на карте</h2>
-  <div id="map" style="height: 400px; margin: 20px; border-radius: 10px;"></div>
+  <div id="map" style="height:400px;margin:20px;border-radius:10px;"></div>
 </section>
 
 <!-- Footer -->
 <footer>
   <div class="footer-content">
-    <div class="footer-section">
-      <h3>О нас</h3>
-      <p>Лучший сервис для бронирования отелей в Алматы</p>
+    <div class="footer-section"><h3>О нас</h3><p>Лучший сервис для бронирования отелей в Алматы</p></div>
+    <div class="footer-section"><h3>Контакты</h3>
+      <ul><li><i class="fas fa-phone"></i> +7 771 355-65-45</li><li><i class="fas fa-envelope"></i> info@hotelfinder.kz</li></ul>
     </div>
-    <div class="footer-section">
-      <h3>Контакты</h3>
-      <ul>
-        <li><i class="fas fa-phone"></i> +7 771 355 65 45</li>
-        <li><i class="fas fa-envelope"></i> info@hotelfinder.kz</li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h3>Соцсети</h3>
+    <div class="footer-section"><h3>Соцсети</h3>
       <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
       <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
     </div>
   </div>
 </footer>
-<div style="text-align: center; padding: 10px;">
-  &copy; 2025 Поиск и бронирование отелей в Алматы. Все права защищены.
-</div>
+<div style="text-align:center;padding:10px;">&copy; 2025 Поиск и бронирование отелей в Алматы. Все права защищены.</div>
 
-<!-- Модальные окна -->
+<!-- ========== Модалки ========== -->
 
 <!-- Регистрация -->
 <div id="registerModal" class="modal">
@@ -121,10 +98,12 @@
     <span class="close" onclick="closeModal('register')">&times;</span>
     <h2>Регистрация</h2>
     <form id="registerForm">
-      <input type="text" id="regName" placeholder="Имя пользователя" required />
-      <input type="text" id="regLogin" placeholder="Логин" required />
-      <input type="password" id="regPassword" placeholder="Пароль" required />
-      <input type="password" id="regConfirm" placeholder="Подтверждение пароля" required />
+      <input type="text" id="regName"     placeholder="Имя"          required />
+      <input type="text" id="regSurname"  placeholder="Фамилия"      required />
+      <input type="text" id="regLogin"    placeholder="Логин"        required />
+      <input type="url"  id="regPhoto"    placeholder="URL фото (необязательно)" />
+      <input type="password" id="regPassword" placeholder="Пароль"   required />
+      <input type="password" id="regConfirm"  placeholder="Повтор пароля" required />
       <button type="submit">Зарегистрироваться</button>
     </form>
   </div>
@@ -136,39 +115,22 @@
     <span class="close" onclick="closeModal('login')">&times;</span>
     <h2>Вход</h2>
     <form id="loginForm">
-      <input type="text" id="loginLogin" placeholder="Логин" required />
-      <input type="password" id="loginPassword" placeholder="Пароль" required />
+      <input type="text"     id="loginLogin"    placeholder="Логин"   required />
+      <input type="password" id="loginPassword" placeholder="Пароль"  required />
       <button type="submit">Войти</button>
     </form>
   </div>
 </div>
 
-
-
 <!-- Loader -->
-<div class="loader">
-  <div class="spinner"></div>
-</div>
+<div class="loader"><div class="spinner"></div></div>
 
-<!-- JS: Leaflet + ваши скрипты -->
+<!-- Скрипты -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script defer src="hotels.js"></script>
 <script defer src="main.js"></script>
 
-<!-- Cсылка для админов -->
-<!-- <script>
-  if(sessionStorage.getItem('isAdmin')) {
-    document.write('<a href="admin-hotel.html" style="position: fixed; top: 20px; right: 20px;">Админ-панель</a>');
-  }
-</script> -->
-
-<!-- Кнопка запуска ассистента -->
-<a href="assistant.html" class="assistant-launch-button" title="Виртуальный помощник">
-  🤖 Чем я могу вам помочь?
-</a>
-</body>
-</html>
-
-
+<!-- Ассистент -->
+<a href="assistant.html" class="assistant-launch-button" title="Виртуальный помощник">🤖 Чем я могу вам помочь?</a>
 </body>
 </html>

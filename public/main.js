@@ -9,173 +9,136 @@ function initMap() {
       .bindPopup("<b>Ритц Карлтон Алматы</b><br>Рейтинг: ★★★★★");
 }
 
-/* ----------  Модалки  ---------- */
-function openModal(id) {
-    document.getElementById(id + "Modal").style.display = "flex";
-}
-function closeModal(id) {
-    document.getElementById(id + "Modal").style.display = "none";
-}
+/* ----------  Модалки ---------- */
+function openModal(id)  { document.getElementById(id + "Modal").style.display = "flex"; }
+function closeModal(id) { document.getElementById(id + "Modal").style.display = "none"; }
 
-/* ----------  UI авторизации ─ шапка  ---------- */
+/* ----------  UI авторизации (шапка) ---------- */
 function updateAuthUI() {
-    const authArea = document.getElementById("authArea");
-    const user = JSON.parse(localStorage.getItem("user"));
+    const area = document.getElementById("authArea");
+    const u    = JSON.parse(localStorage.getItem("user"));
 
-    if (user) {
-        authArea.innerHTML = `
-      <span style="color:#000;margin-right:1rem;">👤 ${user.login}</span>
-      <button onclick="logout()">Выйти</button>`;
+    if (u) {
+        area.innerHTML = `
+      <a href="profile.html" title="Профиль"
+         style="display:flex;align-items:center;text-decoration:none;color:#000;">
+        <img src="${u.photo || 'https://placehold.co/32x32?text=%F0%9F%91%A4'}"
+             style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:.5rem">
+        <span>${u.name}${u.surname ? " " + u.surname : ""}</span>
+      </a>
+      <button onclick="logout()" style="margin-left:1rem;">Выйти</button>`;
     } else {
-        authArea.innerHTML = `
+        area.innerHTML = `
       <button onclick="openModal('register')"><i class="fas fa-user-plus"></i> Регистрация</button>
       <button onclick="openModal('login')"><i class="fas fa-sign-in-alt"></i> Войти</button>`;
     }
 }
-
-/* ----------  Выход из аккаунта  ---------- */
 function logout() {
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    location.href = "index.html";
 }
 
-/* ----------  Переход к оплате  ---------- */
+/* ----------  Переход к оплате (демо) ---------- */
 function goToPayment(id, title) {
-    const params = new URLSearchParams({ hotelId: id, hotelTitle: title });
-    window.location.href = `payment.html?${params.toString()}`;
+    const qs = new URLSearchParams({ hotelId: id, hotelTitle: title });
+    location.href = `payment.html?${qs.toString()}`;
 }
 
-/* ----------  Загрузка отелей с сервера  ---------- */
+/* ----------  Загрузка / отрисовка отелей ---------- */
 async function loadHotels() {
     try {
-        const res = await fetch("/api/hotels");
-        if (!res.ok) throw new Error("Ошибка загрузки: " + res.status);
-        return await res.json();
-    } catch (err) {
-        console.error(err);
-        document.getElementById("hotels").innerHTML =
-          "<p>Не удалось загрузить отели.</p>";
+        const r = await fetch("/api/hotels");
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return await r.json();
+    } catch (e) {
+        console.error(e);
+        document.getElementById("hotels").innerHTML = "<p>Не удалось загрузить отели.</p>";
         return [];
     }
 }
 
-/* ----------  Отрисовка карточек  ---------- */
 function renderHotels(list) {
-    const hotelGrid = document.getElementById("hotels");
-    hotelGrid.innerHTML = "";
+    const grid = document.getElementById("hotels");
+    grid.innerHTML = list.length ? "" : "<p>Ничего не найдено.</p>";
 
-    if (list.length === 0) {
-        hotelGrid.innerHTML = "<p>Ничего не найдено.</p>";
-        return;
-    }
-
-    list.forEach((hotel) => {
+    list.forEach(h => {
         const card = document.createElement("div");
         card.className = "hotel-card";
         card.innerHTML = `
-      <div class="hotel-image" style="background-image:url('${hotel.image}')"></div>
+      <div class="hotel-image" style="background-image:url('${h.image}')"></div>
       <div class="hotel-info">
-        <h3>${hotel.title}</h3>
-        <div class="hotel-rating">${hotel.rating}</div>
-        <p>${hotel.description}</p>
-        <div class="hotel-price">${hotel.price}</div>
+        <h3>${h.title}</h3>
+        <div class="hotel-rating">${h.rating}</div>
+        <p>${h.description}</p>
+        <div class="hotel-price">${h.price}</div>
         <button class="book-button">Забронировать</button>
       </div>`;
-        card
-          .querySelector(".book-button")
-          .addEventListener("click", () => goToPayment(hotel.id, hotel.title));
-        hotelGrid.appendChild(card);
+        card.querySelector(".book-button")
+          .addEventListener("click", () => goToPayment(h.id, h.title));
+        grid.appendChild(card);
     });
 }
 
 /* ----------  Главная точка входа ---------- */
 let hotelsData = [];
 document.addEventListener("DOMContentLoaded", async () => {
-    /* 🛡️ 1. Если админ открывает index.html → сразу на admin-панель */
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.role === "admin") {
-        window.location.href = "admin-hotel.html";
-        return; // не выполняем код ниже
-    }
+    const u = JSON.parse(localStorage.getItem("user"));
+    if (u?.role === "admin") { location.href = "admin-hotel.html"; return; }
 
-    /* 2. Для обычных пользователей продолжаем загрузку страницы */
     updateAuthUI();
     initMap();
 
     hotelsData = await loadHotels();
     renderHotels(hotelsData);
 
-    /* 3. Фильтр по названию */
-    const form = document.getElementById("filterForm");
-    const nameInput = document.getElementById("searchName");
-    form.addEventListener("submit", (e) => {
+    /* фильтр */
+    document.getElementById("filterForm").addEventListener("submit", e => {
         e.preventDefault();
-        const q = nameInput.value.trim().toLowerCase();
-        renderHotels(
-          hotelsData.filter((h) => h.title.toLowerCase().includes(q))
-        );
+        const q = document.getElementById("searchName").value.toLowerCase();
+        renderHotels(hotelsData.filter(h => h.title.toLowerCase().includes(q)));
     });
 });
 
-/* ----------  Регистрация  ---------- */
-document.getElementById("registerForm")?.addEventListener("submit", async (e) => {
+/* ----------  Регистрация ---------- */
+document.getElementById("registerForm")?.addEventListener("submit", async e => {
     e.preventDefault();
-    const name = document.getElementById("regName").value.trim();
-    const login = document.getElementById("regLogin").value.trim();
-    const password = document.getElementById("regPassword").value;
-    const confirm = document.getElementById("regConfirm").value;
+    const name     = regName.value.trim();
+    const surname  = regSurname?.value.trim() || "";           // если поле нет, будет ""
+    const login    = regLogin.value.trim();
+    const password = regPassword.value;
+    const confirm  = regConfirm.value;
+    const photo    = regPhoto?.value.trim() || "";             // если поле нет, будет ""
 
-    if (!name || !login || !password || !confirm)
-        return alert("Пожалуйста, заполните все поля.");
-    if (password !== confirm) return alert("Пароли не совпадают!");
+    if (!name || !login || !password)  return alert("Заполните все обязательные поля");
+    if (password !== confirm)          return alert("Пароли не совпадают");
 
-    try {
-        const res = await fetch("/api/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, login, password }),
-        });
-        const data = await res.json();
-        if (res.ok) {
-            alert(data.message);
-            e.target.reset();
-            closeModal("register");
-        } else alert(data.message || "Ошибка регистрации");
-    } catch {
-        alert("Ошибка подключения к серверу");
-    }
+    const r   = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({ name, surname, login, password, photo })
+    });
+    const msg = await r.json();
+    r.ok ? (alert(msg.message), e.target.reset(), closeModal("register"))
+      : alert(msg.message || "Ошибка регистрации");
 });
 
-/* ----------  Вход  ---------- */
-document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
+/* ----------  Вход ---------- */
+document.getElementById("loginForm")?.addEventListener("submit", async e => {
     e.preventDefault();
-    const login = document.getElementById("loginLogin").value.trim();
-    const password = document.getElementById("loginPassword").value;
+    const login = loginLogin.value.trim();
+    const password = loginPassword.value;
     if (!login || !password) return alert("Введите логин и пароль");
 
-    try {
-        const res = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ login, password }),
-        });
-        const data = await res.json();
-        if (!res.ok) return alert(data.message || "Ошибка входа");
+    const r = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type":"application/json" },
+        body: JSON.stringify({ login, password })
+    });
+    const data = await r.json();
+    if (!r.ok) return alert(data.message || "Ошибка входа");
 
-        /* сохраняем пользователя */
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        /* если админ → на панель, иначе просто обновляем шапку */
-        if (data.user.role === "admin") {
-            window.location.href = "admin-hotel.html";
-            return;
-        }
-
-        alert(data.message);
-        e.target.reset();
-        closeModal("login");
-        updateAuthUI();
-    } catch {
-        alert("Ошибка подключения к серверу");
-    }
+    localStorage.setItem("user", JSON.stringify(data.user));
+    data.user.role === "admin"
+      ? location.href = "admin-hotel.html"
+      : (alert(data.message), closeModal("login"), updateAuthUI());
 });
