@@ -90,58 +90,55 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Оплата бронирования</h2>
+<div class="container">
+    <h2>Оплата бронирования</h2>
 
-        <div class="payment-option">
-            <label for="payment-method">Выберите способ оплаты:</label>
-            <select id="payment-method" onchange="togglePaymentForm()">
-                <option value="visa">Visa</option>
-                <option value="mastercard">Mastercard</option>
-                <option value="kaspi">Kaspi</option>
-            </select>
-        </div>
-
-        <div id="card-payment">
-            <input type="text" placeholder="Номер карты" required>
-            <input type="text" placeholder="Срок действия (MM/YY)" required>
-            <input type="text" placeholder="CVV" required>
-            <button>Оплатить</button>
-        </div>
-
-        <div id="kaspi-payment" style="display: none;">
-            <p style="text-align: center;">Отсканируйте QR-код для оплаты Kaspi:</p>
-            <img src="KaspiQR.jpg" alt="Kaspi QR">
-        </div>
+    <div class="payment-option">
+        <label for="payment-method">Выберите способ оплаты:</label>
+        <select id="payment-method" onchange="togglePaymentForm()">
+            <option value="visa">Visa</option>
+            <option value="mastercard">Mastercard</option>
+            <option value="kaspi">Kaspi</option>
+        </select>
     </div>
 
-    <script>
-        function togglePaymentForm() {
-            const method = document.getElementById('payment-method').value;
-            const cardForm = document.getElementById('card-payment');
-            const kaspiForm = document.getElementById('kaspi-payment');
+    <!-- форма для карт -->
+    <div id="card-payment">
+        <input type="text"  placeholder="Номер карты"              required>
+        <input type="text"  placeholder="Срок действия (MM/YY)"   required>
+        <input type="text"  placeholder="CVV"                     required>
+        <button>Оплатить</button>
+    </div>
 
-            if (method === 'kaspi') {
-                cardForm.style.display = 'none';
-                kaspiForm.style.display = 'block';
-            } else {
-                cardForm.style.display = 'block';
-                kaspiForm.style.display = 'none';
-            }
+    <!-- форма Kaspi -->
+    <div id="kaspi-payment" style="display:none;">
+        <p style="text-align:center;">Отсканируйте QR-код для оплаты Kaspi:</p>
+        <!-- ⬇️ заменили путь на qr.jpg -->
+        <img src="qr.jpg" alt="Kaspi QR-код">
+    </div>
+</div>
+
+<script>
+    function togglePaymentForm(){
+        const method   = document.getElementById('payment-method').value;
+        const cardForm = document.getElementById('card-payment');
+        const kaspiForm= document.getElementById('kaspi-payment');
+
+        if(method==='kaspi'){
+            cardForm.style.display  = 'none';
+            kaspiForm.style.display = 'block';
+        } else {
+            cardForm.style.display  = 'block';
+            kaspiForm.style.display = 'none';
         }
-    </script>
+    }
 
-    <!-- в payment.html, прямо перед закрывающим </body> -->
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const title = params.get('hotelTitle');
-        if (title) {
-            document.querySelector('h2').textContent = `Оплата бронирования: ${title}`;
-        }
-    </script>
-
+    /* меняем заголовок, если в URL есть ?hotelTitle=… */
+    const params = new URLSearchParams(location.search);
+    const title  = params.get('hotelTitle');
+    if(title){
+        document.querySelector('h2').textContent = `Оплата бронирования: ${title}`;
+    }
+</script>
 </body>
 </html>
-
-
-
