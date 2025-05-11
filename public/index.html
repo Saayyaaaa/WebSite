@@ -93,21 +93,51 @@
 <!-- ========== Модалки ========== -->
 
 <!-- Регистрация -->
+<!-- Регистрация -->
 <div id="registerModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal('register')">&times;</span>
     <h2>Регистрация</h2>
     <form id="registerForm">
-      <input type="text" id="regName"     placeholder="Имя"          required />
-      <input type="text" id="regSurname"  placeholder="Фамилия"      required />
-      <input type="text" id="regLogin"    placeholder="Логин"        required />
-      <input type="url"  id="regPhoto"    placeholder="URL фото (необязательно)" />
-      <input type="password" id="regPassword" placeholder="Пароль"   required />
-      <input type="password" id="regConfirm"  placeholder="Повтор пароля" required />
+      <input type="text"
+             id="regName"
+             placeholder="Имя"
+             required />
+
+      <input type="text"
+             id="regSurname"
+             placeholder="Фамилия"
+             required />
+
+      <input type="text"
+             id="regLogin"
+             placeholder="Логин"
+             required />
+
+      <input type="email"
+             id="regEmail"
+             placeholder="E-mail"
+             required />
+
+      <input type="url"
+             id="regPhoto"
+             placeholder="URL фото (необязательно)" />
+
+      <input type="password"
+             id="regPassword"
+             placeholder="Пароль"
+             required />
+
+      <input type="password"
+             id="regConfirm"
+             placeholder="Подтверждение пароля"
+             required />
+
       <button type="submit">Зарегистрироваться</button>
     </form>
   </div>
 </div>
+
 
 <!-- Вход -->
 <div id="loginModal" class="modal">

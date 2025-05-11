@@ -40,8 +40,13 @@ function logout() {
 
 /* ----------  Переход к оплате (демо) ---------- */
 function goToPayment(id, title) {
-    const qs = new URLSearchParams({ hotelId: id, hotelTitle: title });
-    location.href = `payment.html?${qs.toString()}`;
+    // Убедимся, что оба параметра передаются в URL
+    const params = new URLSearchParams({
+        hotelId: id,
+        hotelTitle: title
+    });
+    // Переносим пользователя на страницу оплаты
+    window.location.href = `payment.html?${params.toString()}`;
 }
 
 /* ----------  Загрузка / отрисовка отелей ---------- */
@@ -100,27 +105,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 /* ----------  Регистрация ---------- */
-document.getElementById("registerForm")?.addEventListener("submit", async e => {
-    e.preventDefault();
-    const name     = regName.value.trim();
-    const surname  = regSurname?.value.trim() || "";           // если поле нет, будет ""
-    const login    = regLogin.value.trim();
-    const password = regPassword.value;
-    const confirm  = regConfirm.value;
-    const photo    = regPhoto?.value.trim() || "";             // если поле нет, будет ""
+document.getElementById("registerForm")
+  .addEventListener("submit", async e => {
+      e.preventDefault();
+      const name     = regName.value.trim();
+      const surname  = regSurname.value.trim();
+      const login    = regLogin.value.trim();
+      const email    = regEmail.value.trim();      // <--- новое поле
+      const photo    = regPhoto.value.trim() || "";
+      const password = regPassword.value;
+      const confirm  = regConfirm.value;
 
-    if (!name || !login || !password)  return alert("Заполните все обязательные поля");
-    if (password !== confirm)          return alert("Пароли не совпадают");
+      if (!name || !surname || !login || !email || !password || !confirm) {
+          return alert("Пожалуйста, заполните все обязательные поля.");
+      }
+      if (password !== confirm) {
+          return alert("Пароли не совпадают!");
+      }
 
-    const r   = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({ name, surname, login, password, photo })
-    });
-    const msg = await r.json();
-    r.ok ? (alert(msg.message), e.target.reset(), closeModal("register"))
-      : alert(msg.message || "Ошибка регистрации");
-});
+      const res = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, surname, email, login, password, photo })
+      });
+      const data = await res.json();
+      if (res.ok) {
+          alert(data.message);
+          e.target.reset();
+          closeModal("register");
+      } else {
+          alert(data.message || "Ошибка регистрации");
+      }
+  });
+
 
 /* ----------  Вход ---------- */
 document.getElementById("loginForm")?.addEventListener("submit", async e => {
